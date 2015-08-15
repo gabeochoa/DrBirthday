@@ -41,7 +41,7 @@ def handleAction(db, num, msg):
         else:
             resp.message(str(r))
     elif cmd == "listitems":
-        r = rwfb.listitems(db, num)
+        r = rwfb.listItems(db, num)
         resp.message(str(r))
     elif cmd == "equipitem":
         if(len(spl) != 2):
