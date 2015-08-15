@@ -1,11 +1,64 @@
 {% extends "layout.html" %}
 {% block body %}
 
+
+<canvas id="myCanvas" width="1000" height="500" style="border:1px solid #c3c3c3;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<script type="text/javascript">
+  $.ajax({
+    url: "/game",
+    data: {
+      format: "json"
+    },
+    success: function(data) {
+
+      console.log(data);
+
+      data.forEach(function(player) {
+
+        var canvas = document.getElementById('myCanvas');
+        if (canvas.getContext) {
+          var ctx = canvas.getContext('2d');
+          ctx.fillRect(player.location[0],player.location[1],10,10);
+        }
+
+      })
+    },
+    error: function() {
+      console.log("nooooo");
+    },
+    type: "GET"
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% for player in players %}
-
-<p>{{ player }}</p>
-<img id="scream" src="static/player.png" style="position:relative; left:{{ player["location"][0] }};">
-
+  <p>{{ player }}</p>
+  <p>{{ player["location"][0] }}</p>
 {% endfor %}
 
 
