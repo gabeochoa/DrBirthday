@@ -1,7 +1,11 @@
 import mongoconn
+import random
 
 NOT_FOUND = "No Player Found"
 DEAD_PLYR = "Player has died"
+MAP_SIZE = 1000
+
+
 
 def openDB():
     return mongoconn.mongoconn()
@@ -18,21 +22,27 @@ def query(db, number):
 def getAll(db):
     ply = []
     for pl in db["players"].find({}):
-        print("PLAYER "+tostr(pl))
-        ply.append(tostr(pl))
+        ply.append(pl)
     return ply
 
 
 def tostr(pl):
-    return str(pl["key"][-2:]) + " hp:" + str(pl["currenthp"])
+    #str(pl["key"][-2:]) + 
+    return " name: "+ str(pl["name"]) +" loc: "+str(pl["location"]) +" hp:" + str(pl["currenthp"])
 
 def getEntities(db, loc, radius):
-    return [tostr(pl)
-              for pl in db["players"].find(qri)
-              for qri in [{"location": [x, y]}]
-              for x in range(loc[0] - radius, loc[0] + radius + 1)
-              for y in range(loc[1] - radius, loc[1] + radius + 1)
-              if ((x - loc[0]) ** 2 + (y - loc[1]) ** 2) <= radius ** 2]
+    ent = []
+    coords = [(x,y) 
+      for x in range(loc[0] - radius, loc[0] + radius + 1)
+      for y in range(loc[1] - radius, loc[1] + radius + 1)
+      if ((x - loc[0]) ** 2 + (y - loc[1]) ** 2) <= radius ** 2]
+
+    for (x,y) in coords:
+        qri = {"location": [x, y]}
+        for pl in db["players"].find(qri):
+            ent.append(tostr(pl))
+    return ent
+         
 
 def getItemStats(db, itemname):
     qri = {"key": itemname}
@@ -57,8 +67,9 @@ def createPlayer(db, number, name):
 
     db["players"].insert({
         "key": number,
+        "name": name,
         "loggedon": "true",
-        "location": [0,0],
+        "location": [random.randint(0,MAP_SIZE),random.randint(0,MAP_SIZE)],
         "isdead": "false",
         "currenthp": "10",
         "maxhp": "10",
@@ -69,13 +80,12 @@ def createPlayer(db, number, name):
         "inventory": []
     })
     return
+
 def getStats(db, number):
     player = query(db, number)
     if(player == None):
         return NOT_FOUND
     return str(player)
-    
-
 
 def applyDamage(db, number, dmg):
     player = query(db, number)
@@ -108,6 +118,25 @@ def updateLocation(db, number, dx=0, dy=0):
 
     cur = player["location"]
     loc = [cur[0]+dx, cur[1]+dy]
+
+    if getEntities(db, loc, 0) != []:
+        return "Not able to move player"
+
+    player["location"] = loc
+
+    db["players"].update(
+        {'_id':player["_id"]}, 
+        player,
+        upsert=False)
+
+    return "Update Successful: " + str(loc)
+
+def setName(db, number, name):
+    player = query(db, number)
+    if(player == None):
+        return NOT_FOUND
+
+    player["name"] = name
 
     player["location"] = loc
     db["players"].update(

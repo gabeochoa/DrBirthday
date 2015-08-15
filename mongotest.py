@@ -16,10 +16,12 @@ import rwfb
 def main():
     db = rwfb.openDB()
     print(rwfb.getAll(db))
-    # num = "100"#18007778888"
-    # rwfb.createPlayer(db, "100", "worm")
+    num = "845"#18007778888"
+    #rwfb.createPlayer(db, num, "worm")
+    #rwfb.createPlayer(db, "111", "worm2")
+    #rwfb.createPlayer(db, "12", "worm2")
     # print(rwfb.getLocation(db, num))
-    # rwfb.updateLocation(db, num, 10, 0)
+    rwfb.updateLocation(db, num, 10, 0)
     # print("Player Moved to:"),
     # print(rwfb.getLocation(db, num))
 
