@@ -44,7 +44,29 @@ def getEntities(db, loc, radius):
         for mb in db["mobs"].find(qri):
             ent.append(mb)
     return ent
-         
+
+def applyExp(db, number, lvlk):
+    player = query(db, number)
+    if(player == None):
+        return NOT_FOUND
+    newex = 0
+    if(lvlk > player["lvl"]):
+        newex = 50* (lvlk-player["lvl"])
+    else:
+        newex = 25* (lvlk/2)
+    
+    player["exp"] += newex
+    tob = (200*(lvlk-player["lvl"])**3)
+    if(player["exp"] > tob):
+        player["exp"] -= tob
+        player["lvl"] += 1
+        
+    db["players"].update(
+        {'_id':player["_id"]}, 
+        player,
+        upsert=False)
+    return
+
 def attackDir(db, number, dir):
     player = query(db, number)
     if(player == None):
@@ -63,7 +85,9 @@ def attackDir(db, number, dir):
     stuff = getEntities(db, loc, 0)
     if(stuff != []):
         #something is there
-        r = applyDamage(db, stuff[0], player["attack"])
+        r, lvlk = applyDamage(db, stuff[0], player["attack"])
+        if(r == DEAD_ENT):
+            applyExp(db, number, lvlk)
         return r
     else:
         return "Nothing Hit"
@@ -101,7 +125,8 @@ def createPlayer(db, number, name):
         "attack": "10",
         "defense": "10", 
         "equipment": [],
-        "inventory": []
+        "inventory": [],
+        "exp": 0
     })
     return
 
@@ -119,7 +144,7 @@ def applyDamage(db, entity, dmg):
     if(int(cur) - int(dmg) <= 0):
         #playerdies
         respawn(db, entity)
-        return DEAD_ENT
+        return DEAD_ENT, entity["level"]
     else:
         entity["currenthp"] = cur-dmg
         if entity["key"] == None:
@@ -133,7 +158,7 @@ def applyDamage(db, entity, dmg):
                 {'_id':player["_id"]}, 
                 player,
                 upsert=False)
-    return "Attack Successful: " + str(cur-dmg)
+    return "Attack Successful", entity["level"]
      
 def getLocation(db, number):
     player = query(db, number)
