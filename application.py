@@ -33,7 +33,7 @@ def textHandling():
         return "HI"
     elif request.method == "POST":
         num = request.values.get("From", None)
-        msg = request.values.get("Body", None).to_lower()
+        msg = request.values.get("Body", None).lower()
         if rwfb.query(db, num):
             return handleAction(db, num, msg)
         else:
