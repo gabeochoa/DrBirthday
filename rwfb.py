@@ -18,6 +18,7 @@ def query(db, number):
 def getAll(db):
     ply = []
     for pl in db["players"].find({}):
+        print("PLAYER "+tostr(pl))
         ply.append(tostr(pl))
     return ply
 
