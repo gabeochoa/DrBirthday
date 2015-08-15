@@ -1,13 +1,21 @@
-<!doctype html>
-<html class="no-js" lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Space Deeds</title>
-        {% include 'header.html' %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/splash.css') }}" />
-        <link href="http://fonts.googleapis.com/css?family=Exo+2:100" rel="stylesheet" type="text/css">
-    </head>
-    <body class="valign-wrapper">
-    </body>
-</html>
+<!DOCTYPE html>
+<h1>Leaderboard</h1>
+
+{% block body %}
+
+<table style="width:50%">
+<tr>
+<td>Position.</td><td>Last two digits</td>
+<td>Name</td><td>Level</td><td>Experience</td>
+</tr>
+{% for player in players %}
+<tr>
+<td>{{loop.index}}.</td><td> {{ player[0] }}</td>
+<td> {{ player[1] }}</td><td> {{ player[2] }}</td>
+<td> {{ player[3] }}</td>
+</tr>
+{% endfor %}
+  
+</table>
+
+{% endblock %}

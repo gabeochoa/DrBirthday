@@ -3,7 +3,7 @@ import random
 
 NOT_FOUND = "No Player Found"
 DEAD_ENT = "Entity has died"
-MAP_SIZE = 1000
+MAP_SIZE = 500
 
 def openDB():
     return mongoconn.mongoconn()
@@ -40,7 +40,7 @@ def getTopTen(db):
     ply = sorted(ply, key=lvl, reverse=True)
 
     for t in ply[-10:]:
-        top.append( str(t["key"]) + " Level: " + str(t["level"]) + " Exp: " + str(t["exp"])   )
+        top.append( [str(t["key"][-2:]), str(t["name"]), str(t["level"]) , str(t["exp"]) ]  )
 
     return top
 
