@@ -11,9 +11,10 @@ def hello():
 @application.route("/text", methods=["GET", "POST"])
 def textHandling():
     """Handling a text message."""
-    resp = twilio.twiml.Response()
-    resp.message("Hello friends I am twilio")
-    return str(resp)
+    db = rwfb.openDB()
+    return request.form["From"]
+    #resp.message("Hello friends I am twilio")
+    #return str(resp)
 
 @application.route("/create/<number>")
 def createPlayer(number):
