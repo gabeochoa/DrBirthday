@@ -3,7 +3,7 @@ import random
 
 NOT_FOUND = "No Player Found"
 DEAD_ENT = "Entity has died"
-MAP_SIZE = 500
+MAP_SIZE = 100
 
 def openDB():
     return mongoconn.mongoconn()
@@ -23,6 +23,14 @@ def getAll(db):
         if(pl["loggedon"] == "true"):
             ply.append(pl)
     return ply
+
+def getAllMobs(db):
+    ply = []
+    for pl in db["mobs"].find({}):
+        ply.append(pl)
+    return ply
+
+
 
 def exp(key):
     return key["exp"]
@@ -266,8 +274,58 @@ def equipItem(db, number, item):
 
     return "Item Equipped"
 
+mon_type = ["troll", "goblin", "rat", "bat", "bandit"]
 
 
+
+def createMonsters(db, num):
+    for i in range(num):
+        x = random.randint(0,MAP_SIZE)
+        y = random.randint(0,MAP_SIZE)
+
+        if len(getEntities(db, (x,y), 0)) != 0:
+            continue
+
+        typ = random.choice(mon_type)
+        hp = 10
+        level = 1
+        attack = 1
+        defense = 1
+
+        if typ == "troll":
+            level = random.randint(1, 20)
+            hp = random.randint(level, level+50)
+            attack = random.randint(level//2, level//2 + 10)
+            defense = random.randint(level//2, level//2 + 10)
+        elif typ == "goblin":
+            level = random.randint(1, 10)
+            hp = random.randint(level+5, level+15)
+            attack = random.randint(level//2, level//2 + 10)
+            defense = random.randint(level//2, level//2 + 10)
+        elif typ == "rat":
+            level = random.randint(1, 5)
+            hp = random.randint(level, level+20)
+            attack = random.randint(level//2, level//2 + 10)
+            defense = random.randint(level//2, level//2 + 10)
+        elif typ == "bat":
+            level = random.randint(1, 5)
+            hp = random.randint(level, level+20)
+            attack = random.randint(level//2, level//2 + 10)
+            defense = random.randint(level//2, level//2 + 10)
+
+        #TODO give mobs a random loot
+        randinv = []
+
+        db["mobs"].insert({
+            "type": typ,
+            "location": [random.randint(0,MAP_SIZE),random.randint(0,MAP_SIZE)],
+            "currenthp": hp,
+            "maxhp": hp,
+            "level": level,
+            "attack": attack,
+            "defense": defense,
+            "inventory": randinv
+        })
 
 
 

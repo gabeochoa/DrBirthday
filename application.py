@@ -91,6 +91,13 @@ def showLeaders():
     players=rwfb.getTopTen(rwfb.openDB())
     return render_template('leaderboard.html', players=players)
 
+@application.route("/map")
+def drawMap():
+    db = rwfb.openDB()
+    players =rwfb.getAllMobs(db)
+    players += rwfb.getAll(db)
+    return render_template('map.html', players=players)
+
 
 @application.route("/player/<number>")
 def viewPlayer(number):

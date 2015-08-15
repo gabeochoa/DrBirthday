@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<h1>Leaderboard</h1>
+<script src="http://d3js.org/d3.v2.js"></script>
+
+{% block body %}
+
+{% for player in players %}
+
+
+{% endfor %}
+
+<script>
+var svg = d3.select("body")
+            .append("svg")
+            .attr("width", 500)
+            .attr("height", 500);
+
+var line = d3.svg.line()
+    .x(function(d) {return Math.random() * 400; }) 
+        .y(function(d) { return Math.random() * 300; });
+
+var array = [1,2,3,4,5,6];
+svg.selectAll("path")
+        .data(array).enter()
+        .append("path")
+    .attr("d", function() { return line(array) }) // replacing line with M0,0l100,100 draws a line 
+            .attr("class", "line")
+            .style("stroke", "black" )
+            .attr('fill', 'none');
+        </script>
+
+        {% endblock %}
