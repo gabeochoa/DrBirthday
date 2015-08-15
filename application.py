@@ -61,7 +61,6 @@ def handleAction(db, num, msg):
                      "Send '?' for options.".format(msg))
     return str(resp)
 
-
 @application.route("/text", methods=["GET", "POST"])
 def textHandling():
     """Handling a text message."""
@@ -116,3 +115,8 @@ def root():
 if __name__ == "__main__":
     application.debug = True
     application.run()
+
+
+
+
+

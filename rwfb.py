@@ -192,7 +192,7 @@ def updateLocation(db, number, dx=0, dy=0):
         return NOT_FOUND
 
     cur = player["location"]
-    loc = [cur[0]+dx, cur[1]+dy]
+    loc = [cur[0]+int(dx), cur[1]+int(dy)]
 
     if getEntities(db, loc, 0) != []:
         return "Not able to move player"
