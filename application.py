@@ -118,7 +118,8 @@ def showPlayers():
         mimetype="application/json")
 
 @application.route("/play")
-def showPlayers2(players=rwfb.getAll(rwfb.openDB())):
+def showPlayers2():
+    players=rwfb.getAll(rwfb.openDB())
     return render_template('show_map.html', players=players)
 
 @application.route("/")
