@@ -3,13 +3,22 @@ import twilio.twiml
 import rwfb
 
 application = Flask(__name__)
-commands = ["?"]
+commands = ["?", "setuser", "move"]
+
+INCOR_PARM = "Incorrect Parameters"
 
 
-def handleAction(msg):
+def handleAction(db, num, msg):
     resp = twilio.twiml.Response()
-    if msg.startswith("?"):
+    spl = msg.split(" ")
+    cmd = spl[0]
+    if msg.startswith("?") or cmd not in commands:
         resp.message("Here's a list of commands: {}".format(commands))
+    elif cmd == "setuser":
+        if(len(spl) != 2):
+            return str(resp.message(str(INCOR_PARM)))
+        rwfb.setName(db, num, spl[1])
+        resp.message("Name changed to {}! ").format(spl[1])
     else:
         resp.message("Unrecognized command {}! "
                      "Send '?' for options.".format(msg))
@@ -26,7 +35,7 @@ def textHandling():
         num = request.values.get("From", None)
         msg = request.values.get("Body", None).to_lower()
         if rwfb.query(db, num):
-            return handleAction(msg)
+            return handleAction(db, num, msg)
         else:
             rwfb.createPlayer(db, num, "worm")
             resp = twilio.twiml.Response()
