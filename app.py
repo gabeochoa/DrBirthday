@@ -27,13 +27,9 @@ def showPlayers(players = rwfb.getAll(rwfb.openDB())):
     #players = rwfb.getAll(db)
     return render_template('show_map.html', players=players)
 
-@app.route("/", methods=['GET', 'POST'])
-def hello_monkey():
-    """Respond to incoming calls with a simple text message."""
- 
-    resp = twilio.twiml.Response()
-    resp.message("Hello, Mobile Monkey")
-    return str(resp)
+@app.route("/")
+def root():
+    return render_template('index.html')
 
 if __name__ == "__main__":
     app.run()
