@@ -16,7 +16,10 @@ def query(db, number):
     return value
 
 def getAll(db):
-    return db["players"].find({})
+    ply = []
+
+    for pl in db["players"].find({})
+        ply.append(tostr(pl))
 
 
 def tostr(pl):
