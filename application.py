@@ -28,19 +28,19 @@ def handleAction(db, num, msg):
             return str(resp.message(str(INCOR_PARM)))
         r = rwfb.updateLocation(db, num, spl[1], spl[2])
         if r == "Update Successful":
-            resp.message("Location changed to {},{}! ").format(spl[1], spl[2])
+            resp.message("Location changed to {},{}! ".format(spl[1], spl[2]))
         else:
             resp.message(str(r))
     elif cmd == "logon":
         r = rwfb.updateLogged(db, num, True)
         if r == "Update Successful":
-            resp.message("Location changed to {},{}! ").format(spl[1], spl[2])
+            resp.message("Location changed to {},{}! ".format(spl[1], spl[2]))
         else:
             resp.message(str(r))
     elif cmd == "logoff":
         r = rwfb.updateLogged(db, num, False)
         if r == "Update Successful":
-            resp.message("Location changed to {},{}! ").format(spl[1], spl[2])
+            resp.message("Location changed to {},{}! ".format(spl[1], spl[2]))
         else:
             resp.message(str(r))
     elif cmd == "listitems":
