@@ -42,6 +42,10 @@ def createPlayer(number):
     rwfb.createPlayer(db, num, "worm")
     return "Player Created"
 
+@application.route("/leaderboard")
+def showLeaders(players=rwfb.getTopTen(rwfb.openDB())):
+    return render_template('leaderboard.html', players=players)
+
 
 @application.route("/player/<number>")
 def viewPlayer(number):
