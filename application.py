@@ -20,7 +20,7 @@ def handleAction(db, num, msg):
             return str(resp.message(str(INCOR_PARM)))
         r = rwfb.setName(db, num, spl[1])
         if r == "Update Successful":
-            resp.message("Name changed to {}! ").format(spl[1])
+            resp.message("Name changed to {}!".format(spl[1]))
         else:
             resp.message("Update Failed! ")
     elif cmd == "move":
