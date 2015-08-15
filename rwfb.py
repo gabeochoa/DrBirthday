@@ -20,7 +20,8 @@ def query(db, number):
 def getAll(db):
     ply = []
     for pl in db["players"].find({}):
-        ply.append(pl)
+        if(pl["loggedon"] == "true"):
+            ply.append(pl)
     return ply
 
 
@@ -38,7 +39,8 @@ def getEntities(db, loc, radius):
     for (x,y) in coords:
         qri = {"location": [x, y]}
         for pl in db["players"].find(qri):
-            ent.append(pl)
+            if(pl["loggedon"] == "true"):
+                ent.append(pl)
         for mb in db["mobs"].find(qri):
             ent.append(mb)
     return ent
@@ -159,6 +161,27 @@ def updateLocation(db, number, dx=0, dy=0):
         upsert=False)
 
     return "Update Successful: " + str(loc)
+
+def updateLogged(db, number, logged = True):
+    player = query(db, number)
+    if(player == None):
+        return NOT_FOUND
+
+    if(player["loggedon"] == "false" and logged):
+        player["loggedon"] = "true"
+    elif(player["loggedon"] == "true" and not logged):
+        player["loggedon"] = "false"
+    elif(player["loggedon"] == "true" and logged):
+            return "Already Logged in"
+    elif(player["loggedon"] == "false" and not logged):
+            return "Already Logged out"
+
+    db["players"].update(
+        {'_id':player["_id"]}, 
+        player,
+        upsert=False)
+
+    return "Update Successful"
 
 def setName(db, number, name):
     player = query(db, number)
