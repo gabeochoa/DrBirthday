@@ -42,7 +42,10 @@ def handleAction(db, num, msg):
             resp.message(str(r))
     elif cmd == "listitems":
         r = rwfb.listItems(db, num)
-        resp.message(str(r))
+        if r == []:
+            resp.message("Your inventory is empty")
+        else:
+            resp.message(str(r))
     elif cmd == "equipitem":
         if(len(spl) != 2):
             return str(resp.message(str(INCOR_PARM)))
