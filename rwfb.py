@@ -87,19 +87,19 @@ def applyExp(db, number, lvlk):
         upsert=False)
     return
 
-def attackDir(db, number, dir):
+def attackDir(db, number, direc):
     player = query(db, number)
     if(player == None):
         return NOT_FOUND
     
     loc = player["location"]
-    if(dir == 0): #north
+    if(direc == 0 or direc == "north"): #north
         loc[1] -= 1
-    elif(dir == 1): 
+    elif(direc == 1 or direc == "east"): 
         loc[0] += 1
-    elif(dir == 2):
+    elif(direc == 2 or direc == "down"):
         loc[1] += 1 
-    elif(dir == 3):
+    elif(direc == 3 or direc == "west"):
         loc[0] -= 1 
 
     stuff = getEntities(db, loc, 0)

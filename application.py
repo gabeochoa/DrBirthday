@@ -3,7 +3,8 @@ import twilio.twiml
 import rwfb
 
 application = Flask(__name__)
-commands = ["?", "setuser", "move"]
+commands = ["?", "setuser", "move", "logon", "logoff", "listitems", "equipitem", "attack"]
+compar = ["?", "setuser <newuser>", "move <+x> <+y>", "logon", "logoff", "listitems", "equipitem <itemname>", "attack <dir>"]
 
 INCOR_PARM = "Incorrect Parameters"
 
@@ -13,7 +14,7 @@ def handleAction(db, num, msg):
     spl = msg.split(" ")
     cmd = spl[0]
     if msg.startswith("?") or cmd not in commands:
-        resp.message("Here's a list of commands: {}".format(commands))
+        resp.message("Here's a list of commands: {}".format(compar))
     elif cmd == "setuser":
         if(len(spl) != 2):
             return str(resp.message(str(INCOR_PARM)))
@@ -22,6 +23,39 @@ def handleAction(db, num, msg):
             resp.message("Name changed to {}! ").format(spl[1])
         else:
             resp.message("Update Failed! ")
+    elif cmd == "move":
+        if(len(spl) != 3):
+            return str(resp.message(str(INCOR_PARM)))
+        r = rwfb.updateLocation(db, num, spl[1], spl[2])
+        if r == "Update Successful":
+            resp.message("Location changed to {},{}! ").format(spl[1], spl[2])
+        else:
+            resp.message("Update Failed! ")
+    elif cmd == "logon":
+        r = rwfb.updateLogged(db, num, True)
+        if r == "Update Successful":
+            resp.message("Location changed to {},{}! ").format(spl[1], spl[2])
+        else:
+            resp.message(str(r))
+    elif cmd == "logoff":
+        r = rwfb.updateLogged(db, num, False)
+        if r == "Update Successful":
+            resp.message("Location changed to {},{}! ").format(spl[1], spl[2])
+        else:
+            resp.message(str(r))
+    elif cmd == "listitems":
+        r = rwfb.listitems(db, num)
+        resp.message(str(r))
+    elif cmd == "equipitem":
+        if(len(spl) != 2):
+            return str(resp.message(str(INCOR_PARM)))
+        #r = rwfb.listitems(db, num)
+        resp.message("NOT IMPLEMENTED")
+    elif cmd == "attack":
+        if(len(spl) != 2):
+            return str(resp.message(str(INCOR_PARM)))
+        r = rwfb.attackDir(db, num, spl[1])
+        resp.message(r)
     else:
         resp.message("Unrecognized command {}! "
                      "Send '?' for options.".format(msg))
