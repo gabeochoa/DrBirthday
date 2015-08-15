@@ -2,34 +2,35 @@ from flask import Flask, render_template
 import twilio.twiml
 import rwfb
 
-app = Flask(__name__)
+application = Flask(__name__)
 
-@app.route('/hello')
+@application.route('/hello')
 def hello():
     return 'Hello World'
 
-@app.route("/create/<number>")
+@application.route("/create/<number>")
 def createPlayer(number):
     db = rwfb.openDB()
     num = number#"18007778888"
     rwfb.createPlayer(db, num, "worm")
     return "Player Created"
 
-@app.route("/player/<number>")
+@application.route("/player/<number>")
 def viewPlayer(number):
     db = rwfb.openDB()
     num = number#"18007778888"
     return rwfb.getStats(db, number)
 
-@app.route("/game")
+@application.route("/game")
 def showPlayers(players = rwfb.getAll(rwfb.openDB())):
     #db = rwfb.openDB()
     #players = rwfb.getAll(db)
     return render_template('show_map.html', players=players)
 
-@app.route("/")
+@application.route("/")
 def root():
     return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run()
+    application.debug = True
+    application.run()
