@@ -238,7 +238,7 @@ def setName(db, number, name):
         player,
         upsert=False)
 
-    return "Update Successful: " + str(loc)
+    return "Update Successful"
 
 def listItems(db, number):
     player = query(db, number)

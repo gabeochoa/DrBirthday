@@ -17,8 +17,11 @@ def handleAction(db, num, msg):
     elif cmd == "setuser":
         if(len(spl) != 2):
             return str(resp.message(str(INCOR_PARM)))
-        rwfb.setName(db, num, spl[1])
-        resp.message("Name changed to {}! ").format(spl[1])
+        r = rwfb.setName(db, num, spl[1])
+        if r == "Update Successful":
+            resp.message("Name changed to {}! ").format(spl[1])
+        else:
+            resp.message("Update Failed! ")
     else:
         resp.message("Unrecognized command {}! "
                      "Send '?' for options.".format(msg))
