@@ -1,8 +1,26 @@
 from flask import Flask
 import twilio.twiml
-import mongoconn
+import rwfb
 
 app = Flask(__name__)
+
+@app.route('/hello')
+def hello():
+    return 'Hello World'
+
+@app.route("/create/<number>")
+def createPlayer(number):
+    db = rwfb.openDB()
+    num = number#"18007778888"
+    rwfb.createPlayer(db, num, "worm")
+    return "Player Created"
+
+@app.route("/player/<number>")
+def viewPlayer(number):
+    db = rwfb.openDB()
+    num = number#"18007778888"
+    return rwfb.getStats(db, number)
+
 
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():

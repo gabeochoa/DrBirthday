@@ -70,6 +70,13 @@ def createPlayer(db, number, name):
         "inventory": []
     })
     return
+def getStats(db, number):
+    player = query(db, number)
+    if(player == None):
+        return NOT_FOUND
+    return str(player)
+    
+
 
 def applyDamage(db, number, dmg):
     player = query(db, number)
