@@ -15,6 +15,10 @@ def query(db, number):
         value = cursor[0]
     return value
 
+def getAll(db):
+    return db["players"].find({})
+
+
 def tostr(pl):
     return str(pl["key"][-2:]) + " hp:" + str(pl["currenthp"])
 
