@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import twilio.twiml
 import rwfb
+import bson.json_util as json_util
 
 application = Flask(__name__)
 commands = ["?", "setuser", "move", "logon", "logoff", "listitems", "equipitem", "attack"]
@@ -110,15 +111,14 @@ def viewPlayer(number):
 
 
 @application.route("/game")
-def showPlayers(players=rwfb.getAll(rwfb.openDB())):
-    #db = rwfb.openDB()
-    #players = rwfb.getAll(db)
-    return render_template('show_map.html', players=players)
+def showPlayers():
+    coll = rwfb.openDB()["players"]
+    return Response(response=json_util.dumps(list(coll.find())),
+        status=200,
+        mimetype="application/json")
 
 @application.route("/play")
-def showPlayers(players=rwfb.getAll(rwfb.openDB())):
-    #db = rwfb.openDB()
-    #players = rwfb.getAll(db)
+def showPlayers2(players=rwfb.getAll(rwfb.openDB())):
     return render_template('show_map.html', players=players)
 
 @application.route("/")
