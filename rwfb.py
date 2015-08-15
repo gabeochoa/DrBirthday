@@ -2,10 +2,8 @@ import mongoconn
 import random
 
 NOT_FOUND = "No Player Found"
-DEAD_PLYR = "Player has died"
+DEAD_ENT = "Entity has died"
 MAP_SIZE = 1000
-
-
 
 def openDB():
     return mongoconn.mongoconn()
@@ -40,9 +38,34 @@ def getEntities(db, loc, radius):
     for (x,y) in coords:
         qri = {"location": [x, y]}
         for pl in db["players"].find(qri):
-            ent.append(tostr(pl))
+            ent.append(pl)
+        for mb in db["mobs"].find(qri):
+            ent.append(mb)
     return ent
          
+def attackDir(db, number, dir):
+    player = query(db, number)
+    if(player == None):
+        return NOT_FOUND
+    
+    loc = player["location"]
+    if(dir == 0): #north
+        loc[1] -= 1
+    elif(dir == 1): 
+        loc[0] += 1
+    elif(dir == 2):
+        loc[1] += 1 
+    elif(dir == 3):
+        loc[0] -= 1 
+
+    stuff = getEntities(db, loc, 0)
+    if(stuff != []):
+        #something is there
+        r = applyDamage(db, stuff[0], player["attack"])
+        return r
+    else:
+        return "Nothing Hit"
+
 
 def getItemStats(db, itemname):
     qri = {"key": itemname}
@@ -87,23 +110,29 @@ def getStats(db, number):
         return NOT_FOUND
     return str(player)
 
-def applyDamage(db, number, dmg):
-    player = query(db, number)
-    if(player == None):
-        return NOT_FOUND
+def respawn(db, entity):
+    return
 
-    cur = player["currenthp"]
-    if(cur - dmg <= 0):
+def applyDamage(db, entity, dmg):
+    cur = entity["currenthp"]
+    if(int(cur) - int(dmg) <= 0):
         #playerdies
-        return DEAD_PLYR
+        respawn(db, entity)
+        return DEAD_ENT
     else:
-        player["currenthp"] = cur-dmg
-        db["players"].update(
-            {'_id':player["_id"]}, 
-            player,
-            upsert=False)
-
-    return "Update Successful: " + str(cur-dmg)
+        entity["currenthp"] = cur-dmg
+        if entity["key"] == None:
+            #it is a mob
+            db["mobs"].update(
+                {'_id':entity["_id"]}, 
+                entity,
+                upsert=False)
+        else:
+            db["players"].update(
+                {'_id':player["_id"]}, 
+                player,
+                upsert=False)
+    return "Attack Successful: " + str(cur-dmg)
      
 def getLocation(db, number):
     player = query(db, number)
