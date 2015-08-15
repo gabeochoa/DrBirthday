@@ -87,7 +87,8 @@ def createPlayer(number):
 
 
 @application.route("/leaderboard")
-def showLeaders(players=rwfb.getTopTen(rwfb.openDB())):
+def showLeaders():
+    players=rwfb.getTopTen(rwfb.openDB())
     return render_template('leaderboard.html', players=players)
 
 
