@@ -19,22 +19,13 @@ def tostr(pl):
     return str(pl["key"][-2:]) + " hp:" + str(pl["currenthp"])
 
 def getEntities(db, loc, radius):
-    obj = []
-    #TODO FIX COORDS
-    coords = [(x,y) 
-        for x in range(loc[0]-radius, loc[0]+radius+1)
-        for y in range(loc[1]-radius, loc[1]+radius+1)
-        if ((x-loc[0])**2 + (y-loc[1])**2) <= radius**2
-    ]
-    for x,y in coords:
-        #print(x,y)
-        qri = {"location": [x,y]}
-        pcursor = db["players"].find(qri)
-        # ecursor = db["enemies"].find(qri)
-        for pl in pcursor:
-            obj.append(tostr(pl))
-    return obj
-                
+    return = [tostr(pl)
+              for pl in db["players"].find(qri)
+              for qri = {"location": [x, y]}
+              for x in range(loc[0] - radius, loc[0] + radius + 1)
+              for y in range(loc[1] - radius, loc[1] + radius + 1)
+              if ((x - loc[0]) ** 2 + (y - loc[1]) ** 2) <= radius ** 2]
+
 def getItemStats(db, itemname):
     qri = {"key": itemname}
     cursor = db["items"].find(qri)
