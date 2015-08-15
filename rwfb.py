@@ -75,11 +75,11 @@ def applyExp(db, number, lvlk):
     else:
         newex = 25* (int(lvlk)/2)
 
-    player["exp"] += newex
+    player["exp"] = str(int(player["exp"]) + int(newex))
     tob = (200*(int(lvlk)-int(player["level"]))**3)
-    if(player["exp"] > tob):
-        player["exp"] -= tob
-        player["level"] += 1
+    if(int(player["exp"]) > tob):
+        player["exp"] = str(int(player["exp"]) - int(tob))
+        player["level"] = str(int(player["level"]) + 1)
 
     db["players"].update(
         {'_id':player["_id"]}, 
