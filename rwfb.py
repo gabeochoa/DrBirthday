@@ -24,6 +24,26 @@ def getAll(db):
             ply.append(pl)
     return ply
 
+def exp(key):
+    return key["exp"]
+def lvl(key):
+    return key["level"]
+
+def getTopTen(db):
+    top = []
+    ply = []
+    for pl in db["players"].find({}):
+        ply.append(pl)
+    if(len(ply) == 0):
+        return top
+    ply = sorted(ply, key=exp, reverse=True)
+    ply = sorted(ply, key=lvl, reverse=True)
+
+    for t in ply[-10:]:
+        top.append( str(t["key"]) + " Level: " + str(t["level"]) + " Exp: " + str(t["exp"])   )
+
+    return top
+
 
 def tostr(pl):
     #str(pl["key"][-2:]) + 
@@ -50,17 +70,17 @@ def applyExp(db, number, lvlk):
     if(player == None):
         return NOT_FOUND
     newex = 0
-    if(lvlk > player["lvl"]):
-        newex = 50* (lvlk-player["lvl"])
+    if(lvlk > player["level"]):
+        newex = 50* (lvlk-player["level"])
     else:
         newex = 25* (lvlk/2)
     
     player["exp"] += newex
-    tob = (200*(lvlk-player["lvl"])**3)
+    tob = (200*(lvlk-player["level"])**3)
     if(player["exp"] > tob):
         player["exp"] -= tob
-        player["lvl"] += 1
-        
+        player["level"] += 1
+
     db["players"].update(
         {'_id':player["_id"]}, 
         player,
@@ -126,7 +146,7 @@ def createPlayer(db, number, name):
         "defense": "10", 
         "equipment": [],
         "inventory": [],
-        "exp": 0
+        "exp": "0"
     })
     return
 
