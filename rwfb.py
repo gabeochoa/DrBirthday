@@ -231,10 +231,8 @@ def setName(db, number, name):
     player = query(db, number)
     if(player == None):
         return NOT_FOUND
-
     player["name"] = name
 
-    player["location"] = loc
     db["players"].update(
         {'_id':player["_id"]}, 
         player,
