@@ -18,9 +18,9 @@ def main():
     #print(rwfb.getAll(db))
     num = "845"#18007778888"
     print(rwfb.getTopTen(db))
-    # rwfb.createPlayer(db, num, "LeslieLanderTheReprimander")
-    # rwfb.createPlayer(db, "111", "HartogTheWarthog")
-    # rwfb.createPlayer(db, "12", "LeiYuAndTheGreatKazoo")
+    rwfb.createPlayer(db, num, "LeslieLanderTheReprimander")
+    rwfb.createPlayer(db, "111", "HartogTheWarthog")
+    rwfb.createPlayer(db, "12", "LeiYuAndTheGreatKazoo")
     # print(rwfb.getLocation(db, num))
     #rwfb.updateLocation(db, num, 10, 0)
     # print("Player Moved to:"),

@@ -112,8 +112,10 @@ def viewPlayer(number):
 
 @application.route("/game")
 def showPlayers():
-    coll = rwfb.openDB()["players"]
-    return Response(response=json_util.dumps(list(coll.find())),
+    coll = list(rwfb.openDB()["players"].find())
+    for m in rwfb.openDB()["mobs"].find():
+        coll.append(m)
+    return Response(response=json_util.dumps(list(coll)),
         status=200,
         mimetype="application/json")
 

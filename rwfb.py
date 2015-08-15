@@ -3,7 +3,7 @@ import random
 
 NOT_FOUND = "No Player Found"
 DEAD_ENT = "Entity has died"
-MAP_SIZE = 100
+MAP_SIZE = 500
 
 def openDB():
     return mongoconn.mongoconn()
@@ -144,6 +144,7 @@ def createPlayer(db, number, name):
 
     db["players"].insert({
         "key": number,
+        "type": "human",
         "name": name,
         "loggedon": "true",
         "location": [random.randint(0,MAP_SIZE),random.randint(0,MAP_SIZE)],
