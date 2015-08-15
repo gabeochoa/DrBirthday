@@ -17,7 +17,7 @@ def query(db, number):
 
 def getAll(db):
     ply = []
-    for pl in db["players"].find({})
+    for pl in db["players"].find({}):
         ply.append(tostr(pl))
     return ply
 
@@ -26,9 +26,9 @@ def tostr(pl):
     return str(pl["key"][-2:]) + " hp:" + str(pl["currenthp"])
 
 def getEntities(db, loc, radius):
-    return = [tostr(pl)
+    return [tostr(pl)
               for pl in db["players"].find(qri)
-              for qri = {"location": [x, y]}
+              for qri in [{"location": [x, y]}]
               for x in range(loc[0] - radius, loc[0] + radius + 1)
               for y in range(loc[1] - radius, loc[1] + radius + 1)
               if ((x - loc[0]) ** 2 + (y - loc[1]) ** 2) <= radius ** 2]
