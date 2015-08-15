@@ -204,7 +204,7 @@ def updateLocation(db, number, dx=0, dy=0):
         player,
         upsert=False)
 
-    return "Update Successful: " + str(loc)
+    return "Update Successful"
 
 def updateLogged(db, number, logged = True):
     player = query(db, number)
