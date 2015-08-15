@@ -21,6 +21,11 @@ def viewPlayer(number):
     num = number#"18007778888"
     return rwfb.getStats(db, number)
 
+@app.route("/game")
+def showPlayers():
+    db = rwfb.openDB()
+    return rwfb.getAll(db)
+
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
     """Respond to incoming calls with a simple text message."""
