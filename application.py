@@ -12,9 +12,14 @@ def hello():
 def textHandling():
     """Handling a text message."""
     db = rwfb.openDB()
-    return str(request.form["From"])
-    #resp.message("Hello friends I am twilio")
-    #return str(resp)
+    if request.method == "GET":
+        return "HI"
+    elif request.method == "POST":
+        num = request.values.get("From", None)
+        rwfb.createPlayer(db, num, "worm")
+        resp = twilio.twiml.Response()
+        resp.message("You've created an account with {} under the name {}", num, "worm")
+        return str(resp)
 
 @application.route("/create/<number>")
 def createPlayer(number):
