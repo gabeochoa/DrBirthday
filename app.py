@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import twilio.twiml
 import rwfb
 
@@ -22,9 +22,10 @@ def viewPlayer(number):
     return rwfb.getStats(db, number)
 
 @app.route("/game")
-def showPlayers():
-    db = rwfb.openDB()
-    return str(rwfb.getAll(db))
+def showPlayers(players = rwfb.getAll(rwfb.openDB())):
+    #db = rwfb.openDB()
+    #players = rwfb.getAll(db)
+    return render_template('show_players.html', players=players)
 
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
