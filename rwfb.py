@@ -95,7 +95,6 @@ def createPlayer(db, number, name):
         "name": name,
         "loggedon": "true",
         "location": [random.randint(0,MAP_SIZE),random.randint(0,MAP_SIZE)],
-        "isdead": "false",
         "currenthp": "10",
         "maxhp": "10",
         "level": "1",
