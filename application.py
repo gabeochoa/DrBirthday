@@ -115,10 +115,15 @@ def showPlayers(players=rwfb.getAll(rwfb.openDB())):
     #players = rwfb.getAll(db)
     return render_template('show_map.html', players=players)
 
+@application.route("/play")
+def showPlayers(players=rwfb.getAll(rwfb.openDB())):
+    #db = rwfb.openDB()
+    #players = rwfb.getAll(db)
+    return render_template('show_map.html', players=players)
 
 @application.route("/")
 def root():
-    return render_template('index.html')
+    return render_template('show_map.html')
 
 if __name__ == "__main__":
     application.debug = True
