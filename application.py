@@ -3,16 +3,16 @@ import twilio.twiml
 import rwfb
 
 application = Flask(__name__)
-commands = ["Help"]
+commands = ["?"]
 
 
 def handleAction(msg):
     resp = twilio.twiml.Response()
-    if msg.startswith("H"):
+    if msg.startswith("?"):
         resp.message("Here's a list of commands: {}".format(commands))
     else:
         resp.message("Unrecognized command {}! "
-                     "Send 'Help' for options.".format(msg))
+                     "Send '?' for options.".format(msg))
     return str(resp)
 
 
@@ -24,14 +24,15 @@ def textHandling():
         return "HI"
     elif request.method == "POST":
         num = request.values.get("From", None)
-        msg = request.values.get("Body", None)
+        msg = request.values.get("Body", None).to_lower()
         if rwfb.query(db, num):
             return handleAction(msg)
         else:
             rwfb.createPlayer(db, num, "worm")
             resp = twilio.twiml.Response()
             resp.message("You've created an account with {} "
-                         "under the name {}".format(num, "worm"))
+                         "under the name {}. Type '?' for a list of"
+                         "commands".format(num, "worm"))
             return str(resp)
 
 
@@ -41,6 +42,7 @@ def createPlayer(number):
     num = number  # "18007778888"
     rwfb.createPlayer(db, num, "worm")
     return "Player Created"
+
 
 @application.route("/leaderboard")
 def showLeaders(players=rwfb.getTopTen(rwfb.openDB())):
