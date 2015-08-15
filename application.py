@@ -12,7 +12,7 @@ def hello():
 def textHandling():
     """Handling a text message."""
     db = rwfb.openDB()
-    return request.form["From"]
+    return str(request.form)
     #resp.message("Hello friends I am twilio")
     #return str(resp)
 
