@@ -30,7 +30,7 @@ def handleAction(db, num, msg):
         if r == "Update Successful":
             resp.message("Location changed to {},{}! ").format(spl[1], spl[2])
         else:
-            resp.message("Update Failed! ")
+            resp.message(str(r))
     elif cmd == "logon":
         r = rwfb.updateLogged(db, num, True)
         if r == "Update Successful":
