@@ -71,12 +71,12 @@ def applyExp(db, number, lvlk):
         return NOT_FOUND
     newex = 0
     if(lvlk > player["level"]):
-        newex = 50* (lvlk-player["level"])
+        newex = 50* (int(lvlk)-int(player["level"]))
     else:
-        newex = 25* (lvlk/2)
-    
+        newex = 25* (int(lvlk)/2)
+
     player["exp"] += newex
-    tob = (200*(lvlk-player["level"])**3)
+    tob = (200*(int(lvlk)-int(player["level"]))**3)
     if(player["exp"] > tob):
         player["exp"] -= tob
         player["level"] += 1
