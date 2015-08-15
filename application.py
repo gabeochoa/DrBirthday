@@ -18,7 +18,8 @@ def textHandling():
         num = request.values.get("From", None)
         rwfb.createPlayer(db, num, "worm")
         resp = twilio.twiml.Response()
-        resp.message("You've created an account with {} under the name {}", num, "worm")
+        resp.message("You've created an account with {} under the name {}".format(
+            num, "worm")
         return str(resp)
 
 @application.route("/create/<number>")
