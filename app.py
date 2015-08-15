@@ -25,7 +25,7 @@ def viewPlayer(number):
 def showPlayers(players = rwfb.getAll(rwfb.openDB())):
     #db = rwfb.openDB()
     #players = rwfb.getAll(db)
-    return render_template('show_players.html', players=players)
+    return render_template('show_map.html', players=players)
 
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():

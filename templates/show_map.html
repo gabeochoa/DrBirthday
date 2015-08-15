@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+
+{% for player in players %}
+
+<p>{{ player }}</p>
+<img id="scream" src="static/player.png" style="position:relative; left:{{ player["location"][0] }};">
+
+{% endfor %}
+
+
+{% endblock %}
