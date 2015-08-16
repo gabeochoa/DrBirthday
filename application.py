@@ -89,26 +89,16 @@ def createPlayer(number):
     rwfb.createPlayer(db, num, "worm")
     return "Player Created"
 
-
 @application.route("/leaderboard")
 def showLeaders():
     players=rwfb.getTopTen(rwfb.openDB())
     return render_template('leaderboard.html', players=players)
-
-@application.route("/map")
-def drawMap():
-    db = rwfb.openDB()
-    players =rwfb.getAllMobs(db)
-    players += rwfb.getAll(db)
-    return render_template('map.html', players=players)
-
 
 @application.route("/player/<number>")
 def viewPlayer(number):
     db = rwfb.openDB()
     num = number  # "18007778888"
     return rwfb.getStats(db, num)
-
 
 @application.route("/game")
 def showPlayers():
@@ -119,14 +109,14 @@ def showPlayers():
         status=200,
         mimetype="application/json")
 
-@application.route("/play")
+@application.route("/map")
 def showPlayers2():
     players=rwfb.getAll(rwfb.openDB())
     return render_template('show_map.html', players=players)
 
 @application.route("/")
 def root():
-    return render_template('show_map.html')
+    return render_template('index.html')
 
 if __name__ == "__main__":
     application.debug = True
