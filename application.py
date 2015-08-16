@@ -114,6 +114,11 @@ def showPlayers2():
     players=rwfb.getAll(rwfb.openDB())
     return render_template('show_map.html', players=players)
 
+@application.route("/call")
+def callSpace():
+    twilio.twiml.Response()
+    r.play("https://nasa")
+
 @application.route("/")
 def root():
     return render_template('index.html')
