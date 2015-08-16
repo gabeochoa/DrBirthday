@@ -4,9 +4,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 
-<canvas id="myCanvas" width="1000" height="500" style="border:1px solid #c3c3c3;">
+<canvas id="myCanvas" width="1400" height="700" style="border:1px solid #c3c3c3;">
 Your browser does not support the HTML5 canvas tag.
 </canvas>
+<div style="display:none;">
+  <img id="human_img" src="static/player.png" width="300" height="227">
+  <img id="enemy_img" src="static/enemy.png" width="300" height="227">
+</div>
 
 <script type="text/javascript">
   $.ajax({
@@ -26,12 +30,15 @@ Your browser does not support the HTML5 canvas tag.
           if(player.type != "human")
           {
             ctx.fillStyle = "#ED1B24";
+            var image = document.getElementById('enemy_img');
           }
           else
           {
             ctx.fillStyle = "#000000";
+            var image = document.getElementById('human_img');
           }
-          ctx.fillRect(player.location[0],player.location[1],10,10);
+          ctx.fillRect(player.location[0],player.location[1],32,32);
+          ctx.drawImage(image, player.location[0], player.location[1], 32, 32);
         }
 
       })

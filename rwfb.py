@@ -3,7 +3,7 @@ import random
 
 NOT_FOUND = "No Player Found"
 DEAD_ENT = "Entity has died"
-MAP_SIZE = 500
+MAP_SIZE = 800
 
 def openDB():
     return mongoconn.mongoconn()
