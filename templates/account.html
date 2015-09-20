@@ -1,0 +1,32 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dr. Birthday</title>
+        {% include 'header.html' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}" />
+
+        <link href="http://fonts.googleapis.com/css?family=Exo+2:100" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div id="sidebar">
+            <div class="container">
+            <img src="{{ url_for('static', filename='assets/img/logo.png') }}" width="180px" height="200px">
+            </div>
+        </div>
+        <div id="mid">
+            <table style="width:100%">
+                {% for user in get_patients() %}
+                    {% with user=user %}
+                    {% with format_user=format_user %}
+                    {% include 'user.html' %}
+                    {% endwith %}
+                    {% endwith %}
+                {% endfor %}
+        </table>
+        </div>
+        <div id="rside">
+        </div>
+    </body>
+</html>

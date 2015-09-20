@@ -1,8 +1,8 @@
 __pycache__/
 venv
 *.pyc
-mongoconn.py
 .DS_Store
+keys.py
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

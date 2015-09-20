@@ -6,6 +6,21 @@ body {
     background-color: #FBFBFB;
 }
 
+
+.img-wrap img {
+    height: auto;
+    max-width: 5%;
+}
+
+table, th, td {    
+	border-top-color: black;
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-bottom-color: black;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
 /*--------------
 	Navigation
 ----------------*/
@@ -96,6 +111,14 @@ input {
 	font-family: 'Roboto', sans-serif;
 }
 
+#mid {
+	background-color: #eee;
+	height: 100%;
+	border-right: 5px solid #212121;
+	overflow-y: scroll;
+	width: 100%;
+ 	display:table-cell;
+}
 /*--------------
 	Sidebar
 ----------------*/
@@ -105,7 +128,22 @@ input {
 	height: 100%;
 	border-right: 5px solid #212121;
 	overflow-y: scroll;
+	width: 20%;
+ display:table-cell;
 }
+
+.container {
+    height: 200px;
+    width: 200px;
+    float: left;
+    overflow: hidden;
+    margin: 20px;
+}
+
+img {
+    height: auto;
+}
+
 
 #sidebar p {
 	font-family: 'Roboto', sans-serif;
@@ -142,48 +180,6 @@ input {
 a#submitBtn {
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
-}
-
-/*--------------
-	History
-----------------*/
-
-#history {
-	position: relative;
-	top: 30px;
-}
-
-#history h1 {
-	font-family: "Roboto", sans-serif;
-	font-weight: 300;
-	font-size: 36px;
-	margin: 0;
-}
-
-.card .card-action a {
-	font-family: "Roboto", sans-serif;
-	font-size: 16px;
-	color: #000;
-	cursor: pointer;
-}
-
-.card .card-action a:hover {
-	color: #2BBBAD;
-}
-
-.card-reveal {
-	font-family: "Roboto", sans-serif;
-	font-size: 16px;
-}
-
-.card .card-title {
-	font-family: "Roboto", sans-serif;
-	font-size: 24px;
-	margin: 0;
-}
-
-.card .card-content .card-title {
-  line-height: 36px;
 }
 
 /*--------------
